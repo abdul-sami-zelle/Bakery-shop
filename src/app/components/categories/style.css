@@ -1,0 +1,47 @@
+/* .categories_slider {
+  width: 100%;
+  margin: 30px auto;
+}
+
+.category_card {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.category_card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+} */
+
+.categories_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  width: 100%;
+  margin: 30px auto;
+}
+
+.category_card {
+  padding: 0px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0; /* 👈 sober border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* 👈 light shadow */
+  transition: all 0.3s ease; /* 👈 smooth animation */
+}
+
+.category_card:hover {
+  transform: translateY(-5px) scale(1.03); /* 👈 thoda upar + zoom */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* 👈 hover pe shadow zyada */
+}
+
+.category_card img {
+  width: 100%;     /* 👈 equal size images */
+  object-fit: contain; /* 👈 poori image visible */
+  border-radius: 10px 10px 0 0; /* 👈 rounded top corners */
+}

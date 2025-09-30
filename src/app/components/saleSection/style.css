@@ -1,0 +1,55 @@
+.sale_section {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+/* Initial hidden state */
+.sale_section_sale {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* When visible class added */
+.sale_section_sale.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.sale_section_sale {
+  flex: 1 1 calc(33.333% - 10px);
+  max-width: calc(33.333% - 10px);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  
+}
+
+/* Hover pe animation trigger karega */
+.sale_section_sale:hover {
+  animation: liftUp 0.4s ease forwards;
+}
+
+.sale_section_sale img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* 👇 Keyframes for lift animation */
+@keyframes liftUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
