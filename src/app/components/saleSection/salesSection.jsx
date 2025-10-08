@@ -56,6 +56,9 @@ export default function SaleSection() {
       <div className="sale_section_sale">
         <img src="./assets/banners/sb_3.jpg" alt="sale 3" />
       </div>
+      <div className="sale_section_sale">
+        <img src="./assets/banners/sb_4.jpg" alt="sale 4" />
+      </div>
     </div>
   );
 }

@@ -1,13 +1,13 @@
 .sale_section {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  /* margin-top: 20px;
+  margin-bottom: 20px; */
 }
 /* Initial hidden state */
 .sale_section_sale {
@@ -24,11 +24,10 @@
 
 
 .sale_section_sale {
-  flex: 1 1 calc(33.333% - 10px);
-  max-width: calc(33.333% - 10px);
+  flex: 1 1 calc(25% - 15px);
+  max-width: calc(25% - 15px);
   cursor: pointer;
   transition: transform 0.3s ease;
-  
 }
 
 /* Hover pe animation trigger karega */

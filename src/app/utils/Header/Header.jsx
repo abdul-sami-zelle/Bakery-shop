@@ -7,8 +7,10 @@ import { IoSearch } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { LiaTruckMovingSolid } from "react-icons/lia";
 import "./Header.css";
-
 import { IoMdArrowDropdown } from "react-icons/io";
+// import { getSalesProductData, getCategories, getHeaderDepartments } from "@/lib/api";
+import { getCategories,getHeaderDepartments } from "@/app/lib/api";
+
 
 export default function Header({ onDeptClick, onDiscountClick }) {
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +18,7 @@ export default function Header({ onDeptClick, onDiscountClick }) {
   const [showDelcoMenu, setShowDelcoMenu] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Delco Farmers");
   const [departments, setDepartments] = useState([]);
+  const [headerDepts, setHeaderDepts] = useState([]);
   const [trendDepartments, setTrendDepartments] = useState([]);
   const [discounts, setDiscounts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,24 +63,6 @@ export default function Header({ onDeptClick, onDiscountClick }) {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sideCart = document.querySelector(".side-cart-contaner");
-      if (!sideCart) return;
-
-      if (window.scrollY > 80) {
-        sideCart.classList.add("sidecart-scrolled");
-      } else {
-        sideCart.classList.remove("sidecart-scrolled");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (!transition) {
@@ -87,7 +72,43 @@ export default function Header({ onDeptClick, onDiscountClick }) {
 
 
 
+  useEffect(() => {
+    async function fetchHeaderDepts() {
+      setLoading(true);
+      const data = await getHeaderDepartments();
+      if (data) {
+        setHeaderDepts(data);
+      }
+      setLoading(false);
+    }
+    async function fetchData() {
+      setLoading(true);
+      const data = await getCategories();
+      if (data) {
+        setDepartments(data);
 
+        // pick random departments
+        const count =
+          data.length <= 5 ? 2 : Math.floor(data.length / 2); // rule
+        const shuffled = [...data].sort(() => 0.5 - Math.random());
+        const randomSelected = shuffled.slice(0, count);
+
+        setTrendDepartments(randomSelected);
+      }
+      setLoading(false);
+    }
+    // async function getDicounts() {
+    //   setLoading(true);
+    //   const data = await getSalesProductData();
+    //   if (data?.sales) {
+    //     setDiscounts(data?.sales);
+    //   }
+    //   setLoading(false);
+    // }
+    fetchData();
+    // getDicounts();
+    fetchHeaderDepts();
+  }, []);
   return (
     <>
       <header className="header">
@@ -102,13 +123,18 @@ export default function Header({ onDeptClick, onDiscountClick }) {
                   <HiMenuAlt1 />
                 </button>
               </div>
-              <div className="">
+              <a style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }} href="https://delcofarmersmarket.com">
                 <img
                   src="/assets/Images/header-logo.png"
                   className="header-logo"
-                  alt=""
+                  alt="Delco Farmers Market"
                 />
-              </div>
+              </a>
+
               <div className="search-container">
                 <span
                   className="delco-fresh-btn"
@@ -145,9 +171,7 @@ export default function Header({ onDeptClick, onDiscountClick }) {
                 <MdOutlineShoppingCart
                   size={30}
                   color="#fff"
-                  onClick={() => {}}
                 />
-              
             </div>
           </div>
         </div>
@@ -275,38 +299,112 @@ export default function Header({ onDeptClick, onDiscountClick }) {
           </div>
 
           <span style={{ color: "lightgray", fontSize: "20px" }}>|</span>
+
+
+
+
           <div className="sub-header-left">
+
+            <div className="dropdown">
+              <a href="#">
+                Departments <MdKeyboardArrowDown size={13} />
+              </a>
+              <div className="dropdown-menu">
+                <div className="explore-container depts">
+                  <div className="" style={{ flex: 1 }}>
+                    <ul>
+                      {headerDepts && headerDepts?.map((dept) => (
+                        <li key={dept._id}>
+                          <a className="inner_li_a" href={dept.url}><img style={{ width: "20px", height: "20px", marginRight: "10px" }} src={"https://api.delcofarmersmarket.com" + dept.image} alt="" srcset="" /> {dept.name}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {/* <div className="" style={{ flex: 1 }}>
+                    <ul>
+                      <span>Trending</span>
+                      {trendDepartments.map((dept) => (
+                        <li key={dept._id} onClick={() => {
+                          onDeptClick(dept._id);   // parent ko inform karega
+                        }}>
+                          {dept.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div> */}
+                </div>
+              </div>
+            </div>
+
+
             <div className="dropdown">
               <a href="#">
                 Aisles <MdKeyboardArrowDown size={13} />
               </a>
               <div className="dropdown-menu">
-                <div className="explore-container">
-                  <div className="" style={{flex:1}}>
-                    <ul>
-                      {departments.map((dept) => (
-                        <li key={dept._id} onClick={() => {
-                          onDeptClick(dept.name);   // parent ko inform karega
-                        }}>
-                          {dept.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="" style={{flex:1}}>
-                    <ul>
-                      <span>Trending</span>
-                      {trendDepartments.map((dept) => (
-                        <li key={dept._id} onClick={() => {
-                          onDeptClick(dept.name);   // parent ko inform karega
-                        }}>
-                          {dept.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div
+                  className="explore-container"
+                  style={{
+                    display: departments.length < 11 ? "block" : "grid",
+                    gridTemplateColumns:
+                      departments.length < 11
+                        ? "none"
+                        : "repeat(auto-fill, minmax(200px, 1fr))", // grid only when 10+
+                    gap: departments.length < 11 ? "0" : "20px",
+                    maxHeight: "600px",
+                    overflowY: "auto",
+                    paddingRight: "10px",
+                  }}
+                >
+                  {departments
+                    .reduce((rows, dept, index) => {
+                      const rowIndex = Math.floor(index / 10);
+                      if (!rows[rowIndex]) rows[rowIndex] = [];
+                      rows[rowIndex].push(dept);
+                      return rows;
+                    }, [])
+                    .map((group, i) => (
+                      <ul
+                        key={i}
+                        style={{
+                          listStyle: "none",
+                          padding: 0,
+                          margin: 0,
+                          width: departments.length < 10 ? "100%" : "auto", // full width when less than 10
+                        }}
+                      >
+                        {group.map((dept) => (
+                          <li
+                            key={dept._id}
+                            onClick={() => onDeptClick(dept._id)}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "8px 12px",
+                              cursor: "pointer",
+                              fontSize: "var(--fs-14)",
+                              fontWeight: "var(--fw-400)",
+                              width: departments.length < 10 ? "100%" : "auto",
+                            }}
+                          >
+                            <img
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "10px",
+                                borderRadius: "4px",
+                              }}
+                              src={`https://api.delcofarmersmarket.com${dept.image}`}
+                              alt={dept.name}
+                            />
+                            {dept.name}
+                          </li>
+                        ))}
+                      </ul>
+                    ))}
                 </div>
               </div>
+
             </div>
 
             <div className="dropdown">
@@ -354,9 +452,10 @@ export default function Header({ onDeptClick, onDiscountClick }) {
               </div>
             </div>
 
-            <a href="#">Black Friday</a>
             <span style={{ color: "lightgray", fontSize: "20px" }}>|</span>
-            <a href="#">Past Purchases</a>
+            <a href="#">Black Friday</a>
+
+            {/* <a href="#">Past Purchases</a> */}
             {/* <a href="#">Repeat Items</a> */}
           </div>
 
@@ -386,7 +485,7 @@ export default function Header({ onDeptClick, onDiscountClick }) {
             <div className="location">
               Delivery to:{" "}
               <span>
-                Council Bluffs, United States{" "}
+                Council Bluffs, PA{" "}
                 <span className="down-icon">
                   <MdKeyboardArrowDown />
                 </span>
@@ -396,7 +495,7 @@ export default function Header({ onDeptClick, onDiscountClick }) {
         </div>
         <div className="overlay"></div>
       </div>
-  
+     
     </>
   );
 }

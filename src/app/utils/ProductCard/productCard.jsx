@@ -8,7 +8,7 @@ export default function ProductCard({ item }) {
                 <img src={"https://api.delcofarmersmarket.com"+item.image} alt={item.title} />
                 <div className="product_image">
                     <h2>{item.title}</h2>
-                    <p>{item.description}</p>
+                    {/* <p>{item.description}</p> */}
                 </div>
             </div>
             <div className="bottom_section_card">

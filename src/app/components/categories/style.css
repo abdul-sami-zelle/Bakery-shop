@@ -1,47 +1,82 @@
-/* .categories_slider {
-  width: 100%;
-  margin: 30px auto;
+.categories_slider_wrapper{
+  position: relative;
+  max-width: 92%; 
+  margin: 0 auto;
+
+}
+
+.categories_slider {
+  /* width: 100%; */
+  margin: 20px auto 30px auto;
+  position: relative;
+    display: flex;
+  flex-direction: column;
+  
+}
+
+.categories_slider > .heading {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--charcoal);
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
 
 .category_card {
-  padding: 10px;
+  padding: 4px;
   text-align: center;
   cursor: pointer;
+
 }
 
 .category_card img {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  border: 1px solid #ddd;
-} */
-
-.categories_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-  width: 100%;
-  margin: 30px auto;
+  /* border: 1px solid #ddd; */
+box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.category_card {
-  padding: 0px;
-  text-align: center;
-  cursor: pointer;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0; /* 👈 sober border */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* 👈 light shadow */
-  transition: all 0.3s ease; /* 👈 smooth animation */
+.custom-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    background: #4B532090;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    /* border-radius: 50%; */
+    border-radius: 5px;
+    cursor: pointer;
+    transform: translateY(-50%);
+    font-size: 16px;
+    transition: all 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    z-index: 999;
+    transition: all 0.3s;
+    z-index: 9999 !important;  
+    &:hover{
+        background: #4B5320;
+    }
 }
 
-.category_card:hover {
-  transform: translateY(-5px) scale(1.03); /* 👈 thoda upar + zoom */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* 👈 hover pe shadow zyada */
+
+.custom-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
-.category_card img {
-  width: 100%;     /* 👈 equal size images */
-  object-fit: contain; /* 👈 poori image visible */
-  border-radius: 10px 10px 0 0; /* 👈 rounded top corners */
+.custom-next {
+  right: -5px; /* arrow thoda bahar */
+}
+
+.custom-prev {
+  left: -5px; /* arrow thoda bahar */
+}
+
+
+.slick-track{
+  margin-left: 0 !important;
 }
